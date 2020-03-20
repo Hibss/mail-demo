@@ -1,0 +1,163 @@
+server:
+  port: 8866
+  undertow:
+    worker-threads: 400
+    io-threads: 100
+    buffer-size: 1024
+    direct-buffers: true
+spring:
+  application:
+    name: mailCenter
+  profiles:
+    active: dev
+  jackson:
+    default-property-inclusion: non_null
+    time-zone: GMT+8
+mail:
+  protocol: smtp
+  host: smtp.qq.com
+  username: 36402103@qq.com
+  password: hsszvscufnktcadf
+  port: 465
+  encoding: UTF-8
+  ssl: javax.net.ssl.SSLSocketFactory
+  trust: smtp.qq.com
+  auth: true
+  debug: true
+  fallback: false
+  timeout: 10000
+  connectiontimeout: 10000
+  writetimeout: 10000
+
+ribbon:
+  ReadTimeout: 6000
+  ConnectTimeout: 6000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+
+
+
+---
+spring:
+  profiles: dev
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari:
+      username: szmt_dev
+      password: Szmt@2019#8888
+      jdbc-url: jdbc:mysql://192.168.2.101:3306/mail_center?autoReconnect=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+      minimum-idle: 5
+      maximum-pool-size: 15
+      auto-commit: true
+      idle-timeout: 30002
+      pool-name: mailHikariCP
+      max-lifetime: 500000
+      connection-timeout: 30001
+      connection-test-query: SELECT 1
+      validation-timeout: 5000
+  redis:
+    sentinel:
+      nodes: 10.15.14.13:26379,10.15.14.14:26379,10.15.14.15:26379
+      master: mymaster
+    database: 2
+    timeout: 8000
+    lettuce:
+      pool:
+        max-active: 100         #连接池最大连接数，负数表示没有限制
+        max-wait: -1ms            #连接池最大阻塞等待时间
+        max-idle: 20             #连接池最大空闲数
+        min-idle: 5              #连接池最小空闲数
+        shutdown-timeout: 3000     #jedis连接超时
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://192.168.2.80:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+
+
+---
+spring:
+  profiles: test
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari:
+      username: mail_center
+      password: +Xc0Bs1&O=4i
+      jdbc-url: jdbc:mysql://10.15.14.100:3306/mail_center?autoReconnect=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+      minimum-idle: 5
+      maximum-pool-size: 15
+      auto-commit: true
+      idle-timeout: 30002
+      pool-name: DatebookHikariCP
+      max-lifetime: 500000
+      connection-timeout: 30001
+      connection-test-query: SELECT 1
+      validation-timeout: 5000
+  redis:
+    sentinel:
+      nodes: 10.15.14.13:26379,10.15.14.14:26379,10.15.14.15:26379
+      master: mymaster
+    database: 2
+    timeout: 8000
+    lettuce:
+      pool:
+        max-active: 100         #连接池最大连接数，负数表示没有限制
+        max-wait: -1ms            #连接池最大阻塞等待时间
+        max-idle: 20             #连接池最大空闲数
+        min-idle: 5              #连接池最小空闲数
+        shutdown-timeout: 3000     #jedis连接超时
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://10.15.14.95:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+
+
+---
+spring:
+  profiles: prod
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari:
+      username: mail_center
+      password: +Xc0Bs1&O=4i
+      jdbc-url: jdbc:mysql://10.8.96.100:3306/mail_center?autoReconnect=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+      minimum-idle: 5
+      maximum-pool-size: 15
+      auto-commit: true
+      idle-timeout: 30002
+      pool-name: DatebookHikariCP
+      max-lifetime: 500000
+      connection-timeout: 30001
+      #connection-test-query: SELECT 1
+      validation-timeout: 5000
+  redis:
+    sentinel:
+      nodes: 10.8.96.16:26379,10.8.96.17:26379,10.8.96.18:26379
+      master: mymaster
+    database: 2
+    timeout: 8000
+    lettuce:
+      pool:
+        max-active: 100         #连接池最大连接数，负数表示没有限制
+        max-wait: -1ms            #连接池最大阻塞等待时间
+        max-idle: 20             #连接池最大空闲数
+        min-idle: 5              #连接池最小空闲数
+        shutdown-timeout: 3000     #jedis连接超时
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://10.8.96.58:8761/eureka/,http://10.8.96.59:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
