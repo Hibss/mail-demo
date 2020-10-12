@@ -28,6 +28,10 @@ public class MailService {
         if(checkMsg != null && checkMsg.length() > 0){
             return CommonResponse.fail(checkMsg.substring(0,checkMsg.length()-1));
         }
+//        for (int i = 0; i < 200; i++) {
+//            mailFactory.sendMessage(vo);
+//        }
+
        if(mailFactory.sendMessage(vo)){
            mailAsyncService.processMailSend(vo);
        }
