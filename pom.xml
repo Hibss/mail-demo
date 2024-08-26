@@ -18,7 +18,7 @@
 		<java.version>1.8</java.version>
 		<org.jfaster.mango.version>1.6.0</org.jfaster.mango.version>
 		<spring-cloud.version>Finchley.RELEASE</spring-cloud.version>
-		<swagger.version>2.7.0</swagger.version>
+		<swagger.version>2.10.0</swagger.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
